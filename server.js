@@ -1,16 +1,12 @@
-// Lanzar el servidor:
-// node server.js
-
-// Conectarse al servidor desde el navegador web:
-// http://localhost:3008/
-
 const express = require("express");
 const { connectToMongoDB, disconnectFromMongoDB } = require("./src/mongodb");
-const { disconnect } = require("process");
+const cors = require("cors");
+// const { disconnect } = require("process");
 const app = express();
 process.loadEnvFile();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json()); // Realizar el intercambio de información en formato JSON
 
 // Encabezado y acceso al middelware
@@ -31,6 +27,8 @@ app.listen(PORT, () => {
 
 // Obtener todos los destinos de la base de datos
 app.get("/destinos", async (req, res) => {
+  console.log("La URL recibida es: " + req.url);
+
   try {
     // Conexión a la base de datos
     const client = await connectToMongoDB();
@@ -45,7 +43,9 @@ app.get("/destinos", async (req, res) => {
       ? res.status(404).send("No hay destinos en la base de datos")
       : res.status(200).json(destinos);
   } catch (error) {
-    res.status(500).send("Error al obtener los destinos de la base de datos");
+    res
+      .status(500)
+      .send("Error al obtener los destinos de la base de datos: " + error);
   } finally {
     await disconnectFromMongoDB();
   }
