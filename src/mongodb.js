@@ -1,5 +1,9 @@
 const { MongoClient } = require("mongodb");
-process.loadEnvFile("./.env");
+
+// process.loadEnvFile("./.env");
+
+const dotenv = require("dotenv");
+dotenv.config();
 
 const MONGODB_CONNECTION_STRING =
   process.env.URL_PREFIX +

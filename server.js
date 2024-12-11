@@ -1,9 +1,17 @@
 const express = require("express");
-const { connectToMongoDB, disconnectFromMongoDB } = require("./src/mongodb");
+const { connectToMongoDB, disconnectFromMongoDB } = require("./src/mongodb.js");
 const cors = require("cors");
+
+const dotenv = require("dotenv");
+dotenv.config();
+
 // const { disconnect } = require("process");
 const app = express();
-process.loadEnvFile();
+
+// import dotenv from "dotenv";
+// dotenv.config();
+
+// process.loadEnvFile();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
